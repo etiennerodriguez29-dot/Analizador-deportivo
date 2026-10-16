@@ -132,6 +132,10 @@ function escapeText(value){
  })[c]);
 }
 </script>
+<section class="card">
+  <h2>🏀 Partidos NBA de hoy</h2>
+  <div id="partidos">Cargando partidos...</div>
+</section>
 <script>
 const API_DEPORTIVA =
   "https://analizador-deportivo-api.etiennerodriguez29.workers.dev";
