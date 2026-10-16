@@ -190,5 +190,7 @@ async function cargarPartidos() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", cargarPartidos);<script src="./partidos.js" defer></script></body>
+document.addEventListener("DOMContentLoaded", cargarPartidos);<script src="./partidos.js" defer>
+</script>
+</body>
 </html>
