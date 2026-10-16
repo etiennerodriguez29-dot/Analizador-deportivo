@@ -186,11 +186,11 @@ async function cargarPartidos() {
     }
   } catch (error) {
     contenedor.textContent =
-      "No se pudieron cargar los partidos. Intenta nuevamente.";
-  }
-}
 
-document.addEventListener("DOMContentLoaded", 
-</script>
+document.addEventListener("DOMContentLoaded", cargarPartidos);
+        "No se pudieron cargar los partidos. Intenta 
+
+document.addEventListener("DOMContentLoaded", cargarPartidos);
+  </script>
 </body>
 </html>
