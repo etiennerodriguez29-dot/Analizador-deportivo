@@ -132,7 +132,7 @@ function escapeText(value){
  })[c]);
 }
 </script>
-
+<script>
 const API_DEPORTIVA =
   "https://analizador-deportivo-api.etiennerodriguez29.workers.dev";
 
@@ -190,7 +190,7 @@ async function cargarPartidos() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", cargarPartidos);<script src="./partidos.js" defer>
+document.addEventListener("DOMContentLoaded", 
 </script>
 </body>
 </html>
