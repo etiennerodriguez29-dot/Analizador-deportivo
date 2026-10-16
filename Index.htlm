@@ -184,13 +184,14 @@ async function cargarPartidos() {
       tarjeta.append(titulo, detalle);
       contenedor.appendChild(tarjeta);
     }
+
   } catch (error) {
     contenedor.textContent =
+      "No se pudieron cargar los partidos. Intenta nuevamente.";
+  }
+}
 
 document.addEventListener("DOMContentLoaded", cargarPartidos);
-        "No se pudieron cargar los partidos. Intenta 
-
-document.addEventListener("DOMContentLoaded", cargarPartidos);
-  </script>
+</script>
 </body>
 </html>
