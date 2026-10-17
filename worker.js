@@ -54,7 +54,7 @@ if (sport === "nba" && url.searchParams.has("team")) {
   try {
     const apiUrl = new URL("/games", apis.nba);
     apiUrl.searchParams.set("team", team);
-    apiUrl.searchParams.set("season", "2025");
+    apiUrl.searchParams.set("season", "2024");
 
     const response = await fetch(apiUrl.toString(), {
       headers: {
