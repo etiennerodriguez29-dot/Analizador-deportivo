@@ -80,7 +80,7 @@ if (cached) {
   response.status
 );
 
-if (response.ok && !Object.keys(data.errors || {}).length) {
+if (response.ok && data.results > 0 && !Object.keys(data.errors || {}).length) {
   resultado.headers.set("Cache-Control", "public, max-age=86400");
   await cache.put(cacheKey, resultado.clone());
 }
