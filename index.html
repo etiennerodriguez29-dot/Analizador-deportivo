@@ -173,6 +173,8 @@ async function cargarPartidos() {
     for (const juego of juegos) {
       const local = juego.teams?.home?.name || "Local";
       const visita = juego.teams?.visitors?.name || "Visitante";
+     const idLocal = juego.teams?.home?.id;
+const idVisita = juego.teams?.visitors?.id;
       const estado = juego.status?.long || "Programado";
 const puntosLocal = juego.scores?.home?.points;
 const puntosVisita = juego.scores?.visitors?.points;
