@@ -174,7 +174,11 @@ async function cargarPartidos() {
       const local = juego.teams?.home?.name || "Local";
       const visita = juego.teams?.visitors?.name || "Visitante";
       const estado = juego.status?.long || "Programado";
-
+const puntosLocal = juego.scores?.home?.points;
+const puntosVisita = juego.scores?.visitors?.points;
+const marcador = puntosLocal != null && puntosVisita != null
+  ? `${puntosVisita} - ${puntosLocal}`
+  : "Aún sin marcador";
       const tarjeta = document.createElement("div");
       tarjeta.className = "card";
       tarjeta.style.marginTop = "12px";
@@ -183,7 +187,7 @@ async function cargarPartidos() {
       titulo.textContent = `${visita} vs ${local}`;
 
       const detalle = document.createElement("p");
-      detalle.textContent = `Estado: ${estado}`;
+      detalle.textContent = `Marcador: ${marcador} | Estado: ${estado}`;
 
       tarjeta.append(titulo, detalle);
       contenedor.appendChild(tarjeta);
