@@ -54,6 +54,16 @@ if (sport === "nba" && url.searchParams.has("team")) {
   }
 
   try {
+    const cache = caches.default;
+const cacheKey = new Request(
+  `https://cache.analizador-deportivo.local/nba/${team}/2024`
+);
+
+const cached = await cache.match(cacheKey);
+
+if (cached) {
+  return cached;
+}
     const apiUrl = new URL("/games", apis.nba);
     apiUrl.searchParams.set("team", team);
     apiUrl.searchParams.set("season", "2024");
@@ -65,7 +75,17 @@ if (sport === "nba" && url.searchParams.has("team")) {
     });
 
     const data = await response.json();
-    return json({ sport: "nba", team, data }, response.status);
+    const resultado = json(
+  { sport: "nba", team, data },
+  response.status
+);
+
+if (response.ok && !Object.keys(data.errors || {}).length) {
+  resultado.headers.set("Cache-Control", "public, max-age=86400");
+  await cache.put(cacheKey, resultado.clone());
+}
+
+return resultado;
   } catch {
     return json({ error: "Error al consultar NBA" }, 502);
   }
