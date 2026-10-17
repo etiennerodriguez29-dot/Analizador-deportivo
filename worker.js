@@ -56,7 +56,7 @@ if (sport === "nba" && url.searchParams.has("team")) {
   try {
     const cache = caches.default;
 const cacheKey = new Request(
-  `https://cache.analizador-deportivo.local/nba/${team}/2024`
+  `https://cache.analizador-deportivo.local/nba/${team}/2025`
 );
 
 const cached = await cache.match(cacheKey);
@@ -66,7 +66,7 @@ if (cached) {
 }
     const apiUrl = new URL("/games", apis.nba);
     apiUrl.searchParams.set("team", team);
-    apiUrl.searchParams.set("season", "2024");
+    apiUrl.searchParams.set("season", "2025");
 
     const response = await fetch(apiUrl.toString(), {
       headers: {
