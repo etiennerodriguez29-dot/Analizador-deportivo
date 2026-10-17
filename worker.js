@@ -37,8 +37,12 @@ export default {
       return json({ error: "Deporte no válido" }, 400);
     }
 
-    if (!(sport === "nba" && url.searchParams.has("team")) && (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date))) {
     
+    if (!(sport === "nba" && url.searchParams.has("team")) && (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date))) {
+  return json({ error: "Fecha inválida" }, 400);
+}
+
+
 
     if (!env.API_SPORTS_KEY) {
       return json({ error: "API key no configurada" }, 500);
