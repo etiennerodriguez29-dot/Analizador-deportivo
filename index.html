@@ -161,7 +161,32 @@ async function cargarPartidos() {
     if (!respuesta.ok || resultado.data?.errors?.length) {
       throw new Error("No se pudieron consultar los partidos");
     }
+function calcularPromedios(partidos, idEquipo) {
+  let anotados = 0;
+  let recibidos = 0;
+  let cantidad = 0;
 
+  for (const partido of partidos) {
+    const local = partido.teams?.home?.id === Number(idEquipo);
+    const visita = partido.teams?.visitors?.id === Number(idEquipo);
+    const puntosLocal = partido.scores?.home?.points;
+    const puntosVisita = partido.scores?.visitors?.points;
+
+    if ((!local && !visita) || puntosLocal == null || puntosVisita == null) continue;
+
+    anotados += local ? puntosLocal : puntosVisita;
+    recibidos += local ? puntosVisita : puntosLocal;
+    cantidad++;
+  }
+
+  if (!cantidad) return null;
+
+  return {
+    partidos: cantidad,
+    anotados: (anotados / cantidad).toFixed(1),
+    recibidos: (recibidos / cantidad).toFixed(1)
+  };
+}
     const juegos = resultado.data?.response || [];
     contenedor.replaceChildren();
 
