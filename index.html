@@ -187,6 +187,19 @@ function calcularPromedios(partidos, idEquipo) {
     recibidos: (recibidos / cantidad).toFixed(1)
   };
 }
+   async function obtenerHistorialNBA(idEquipo) {
+  if (!idEquipo) return [];
+
+  const url = `${API_DEPORTIVA}/?sport=nba&team=${idEquipo}`;
+  const respuesta = await fetch(url);
+  const resultado = await respuesta.json();
+
+  if (!respuesta.ok || Object.keys(resultado.data?.errors || {}).length) {
+    throw new Error("No se pudo consultar el historial NBA");
+  }
+
+  return resultado.data?.response || [];
+}
     const juegos = resultado.data?.response || [];
     contenedor.replaceChildren();
 
