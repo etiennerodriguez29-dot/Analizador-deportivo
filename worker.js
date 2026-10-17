@@ -44,7 +44,30 @@ export default {
     if (!env.API_SPORTS_KEY) {
       return json({ error: "API key no configurada" }, 500);
     }
+if (sport === "nba" && url.searchParams.has("team")) {
+  const team = url.searchParams.get("team");
 
+  if (!/^\d+$/.test(team)) {
+    return json({ error: "ID de equipo inválido" }, 400);
+  }
+
+  try {
+    const apiUrl = new URL("/games", apis.nba);
+    apiUrl.searchParams.set("team", team);
+    apiUrl.searchParams.set("season", "2025");
+
+    const response = await fetch(apiUrl.toString(), {
+      headers: {
+        "x-apisports-key": env.API_SPORTS_KEY
+      }
+    });
+
+    const data = await response.json();
+    return json({ sport: "nba", team, data }, response.status);
+  } catch {
+    return json({ error: "Error al consultar NBA" }, 502);
+  }
+}
     const endpoint = sport === "football"
       ? "/fixtures"
       : "/games";
