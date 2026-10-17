@@ -106,6 +106,6 @@ return resultado;
       }, 502);
     }
     }
-  }
+  
   };
 // Primera compilacion Cloudflare
