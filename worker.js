@@ -38,8 +38,7 @@ export default {
     }
 
     
-    if (!(sport === "nba" && url.searchParams.has("team")) && (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date))) {
-  return json({ error: "Fecha inválida" }, 400);
+    if (!(sport === "nba" && url.searchParams.has("team")) && (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date))) {return json({ error: "Fecha inválida" }, 400);
 }
 
 
