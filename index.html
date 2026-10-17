@@ -214,11 +214,36 @@ function calcularPromedios(partidos, idEquipo) {
      const idLocal = juego.teams?.home?.id;
 const idVisita = juego.teams?.visitors?.id;
       const estado = juego.status?.long || "Programado";
+     let historialLocal = [];
+let historialVisita = [];
+
+try {
+  historialLocal = await obtenerHistorialNBA(idLocal);
+} catch (error) {
+  console.warn("Historial local no disponible");
+}
+
+try {
+  historialVisita = await obtenerHistorialNBA(idVisita);
+} catch (error) {
+  console.warn("Historial visitante no disponible");
+}
+
+const promedioLocal = calcularPromedios(historialLocal, idLocal);
+const promedioVisita = calcularPromedios(historialVisita, idVisita);
 const puntosLocal = juego.scores?.home?.points;
 const puntosVisita = juego.scores?.visitors?.points;
 const marcador = puntosLocal != null && puntosVisita != null
   ? `${puntosVisita} - ${puntosLocal}`
   : "Aún sin marcador";
+     const estadisticas = document.createElement("p");
+
+estadisticas.textContent =
+  promedioLocal && promedioVisita
+    ? `${local}: ${promedioLocal.anotados} puntos anotados de promedio | ${visita}: ${promedioVisita.anotados} puntos anotados de promedio`
+    : "Promedios no disponibles";
+
+
       const tarjeta = document.createElement("div");
       tarjeta.className = "card";
       tarjeta.style.marginTop = "12px";
@@ -229,7 +254,7 @@ const marcador = puntosLocal != null && puntosVisita != null
       const detalle = document.createElement("p");
       detalle.textContent = `Marcador: ${marcador} | Estado: ${estado}`;
 
-      tarjeta.append(titulo, detalle);
+      tarjeta.append(titulo, detalle, estadisticas);
       contenedor.appendChild(tarjeta);
     }
 
