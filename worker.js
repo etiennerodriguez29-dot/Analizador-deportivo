@@ -73,6 +73,10 @@ if (sport === "nba" && url.searchParams.has("team")) {
       : "/games";
 
     try {
+      const cache = caches.default;
+const cacheKey = new Request(request.url);
+const cached = await cache.match(cacheKey);
+if (cached) return cached;
       const response = await fetch(
         `${apis[sport]}${endpoint}?date=${date}`,
         {
@@ -84,11 +88,16 @@ if (sport === "nba" && url.searchParams.has("team")) {
 
       const data = await response.json();
 
-      return json({
-        sport,
-        date,
-        data
-      }, response.status);
+      const resultado = json({ sport, date, data }, response.status);
+
+if (response.ok && !Object.keys(data.errors || {}).length) {
+  const guardado = new Response(resultado.body, resultado);
+  guardado.headers.set("Cache-Control", "public, max-age=600");
+  await cache.put(cacheKey, guardado.clone());
+  return guardado;
+}
+
+return resultado;
     } catch {
       return json({
         error: "Error al consultar API-Sports"
