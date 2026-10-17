@@ -114,7 +114,7 @@ if (cached) return cached;
 
 if (response.ok && !Object.keys(data.errors || {}).length) {
   const guardado = new Response(resultado.body, resultado);
-  guardado.headers.set("Cache-Control", "public, max-age=600");
+  guardado.headers.set("Cache-Control", "public, max-age=3600");
   await cache.put(cacheKey, guardado.clone());
   return guardado;
 }
