@@ -102,6 +102,7 @@ return resultado;
         error: "Error al consultar API-Sports"
       }, 502);
     }
+    }
   }
-};
+  };
 // Primera compilacion Cloudflare
