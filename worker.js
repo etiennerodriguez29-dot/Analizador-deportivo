@@ -64,6 +64,20 @@ const cached = await cache.match(cacheKey);
 if (cached) {
   return cached;
 }
+    const bloqueoKey = new Request(
+  `https://cache.analizador-deportivo.local/bloqueo/nba/${team}`
+);
+
+const bloqueo = await cache.match(bloqueoKey);
+
+if (bloqueo) {
+  return json({
+    sport: "nba",
+    team,
+    error: "API-Sports temporalmente limitada. Espera un minuto.",
+    rateLimited: true
+  }, 429);
+}
     const apiUrl = new URL("/games", apis.nba);
     apiUrl.searchParams.set("team", team);
     apiUrl.searchParams.set("season", "2025");
@@ -76,10 +90,18 @@ if (cached) {
 
     const data = await response.json();
     if (data.errors?.rateLimit) {
+  const respuestaBloqueo = new Response("Bloqueo temporal", {
+    headers: {
+      "Cache-Control": "public, max-age=60"
+    }
+  });
+const data = await response.json();
+  await cache.put(bloqueoKey, respuestaBloqueo);
+
   return json({
     sport: "nba",
     team,
-    error: "API-Sports alcanzó su límite de solicitudes. Intenta nuevamente más tarde.",
+    error: "API-Sports alcanzó su límite. Espera un minuto.",
     rateLimited: true
   }, 429);
 }
