@@ -61,10 +61,11 @@ if (
       tarjeta.append(titulo, detalle);
       contenedor.appendChild(tarjeta);
     }
-  } catch (error) {
-    contenedor.textContent =
-      "No se pudieron cargar los partidos. Intenta nuevamente.";
-  }
+ } catch (error) {
+  console.error("Error NBA:", error);
+  contenedor.textContent =
+    error.message || "No se pudieron cargar los partidos.";
+}
 }
 
 document.addEventListener("DOMContentLoaded", cargarPartidos);
