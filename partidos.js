@@ -20,10 +20,18 @@ async function cargarPartidos() {
     const respuesta = await fetch(url);
     const resultado = await respuesta.json();
 
-    if (!respuesta.ok || resultado.data?.errors?.length) {
-      throw new Error("No se pudieron consultar los partidos");
-    }
+    if (resultado.data?.errors?.rateLimit || resultado.rateLimited) {
+  throw new Error(
+    "API-Sports alcanzó su límite de consultas. Intenta nuevamente más tarde."
+  );
+}
 
+if (
+  !respuesta.ok ||
+  Object.keys(resultado.data?.errors || {}).length > 0
+) {
+  throw new Error("No se pudieron consultar los partidos");
+}
     const juegos = resultado.data?.response || [];
     contenedor.replaceChildren();
 
