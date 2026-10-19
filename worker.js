@@ -88,14 +88,15 @@ if (bloqueo) {
       }
     });
 
-    const data = await response.json();
-    if (data.errors?.rateLimit) {
+  const data = await response.json();
+
+if (data.errors?.rateLimit) {
   const respuestaBloqueo = new Response("Bloqueo temporal", {
     headers: {
       "Cache-Control": "public, max-age=60"
     }
   });
-const data = await response.json();
+
   await cache.put(bloqueoKey, respuestaBloqueo);
 
   return json({
@@ -138,7 +139,14 @@ if (cached) return cached;
         }
       );
 const data = await response.json();
-     
+   if (data.errors?.rateLimit) {
+  return json({
+    sport,
+    date,
+    error: "API-Sports alcanzó su límite de consultas. Intenta más tarde.",
+    rateLimited: true
+  }, 429);
+}  
       const resultado = json({ sport, date, data }, response.status);
 
 if (response.ok && !Object.keys(data.errors || {}).length) {
