@@ -32,6 +32,9 @@ if (
 ) {
   throw new Error("No se pudieron consultar los partidos");
 }
+    if (!Array.isArray(resultado.data?.response)) {
+  throw new Error("La API no entregó una lista válida de partidos.");
+}
     const juegos = resultado.data?.response || [];
     contenedor.replaceChildren();
 
