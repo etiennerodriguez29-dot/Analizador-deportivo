@@ -133,7 +133,11 @@ function escapeText(value){
 }
 </script>
 <section class="card">
-  <h2>🏀 Partidos NBA de hoy</h2>
+  <h2>🏀 Partidos NBA</h2>
+
+  <label for="fechaNBA">Selecciona una fecha:</label>
+  <input type="date" id="fechaNBA">
+
   <div id="partidos">Cargando partidos...</div>
 </section>
 <script>
@@ -146,12 +150,20 @@ async function cargarPartidos() {
 
   contenedor.textContent = "Cargando partidos NBA...";
 
-  const fecha = new Date().toLocaleDateString("en-CA", {
-    timeZone: "America/Santiago",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit"
-  });
+ const selectorFecha = document.getElementById("fechaNBA");
+
+const fechaHoy = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "America/Santiago",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit"
+}).format(new Date());
+
+if (!selectorFecha.value) {
+  selectorFecha.value = fechaHoy;
+}
+
+const fecha = selectorFecha.value;
 
   try {
     const url = `${API_DEPORTIVA}/?sport=nba&date=${fecha}`;
@@ -264,7 +276,9 @@ estadisticas.textContent =
   }
 }
 
-document.addEventListener("DOMContentLoaded", cargarPartidos);
-</script>
-</body>
-</html>
+document.addEventListener("DOMContentLoaded", () => {
+  cargarPartidos();
+
+  document.getElementById("fechaNBA")
+    .addEventListener("change", cargarPartidos);
+});
