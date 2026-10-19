@@ -137,7 +137,7 @@ if (cached) return cached;
           }
         }
       );
-
+const data = await response.json();
      
       const resultado = json({ sport, date, data }, response.status);
 
