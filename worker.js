@@ -75,6 +75,14 @@ if (cached) {
     });
 
     const data = await response.json();
+    if (data.errors?.rateLimit) {
+  return json({
+    sport: "nba",
+    team,
+    error: "API-Sports alcanzó su límite de solicitudes. Intenta nuevamente más tarde.",
+    rateLimited: true
+  }, 429);
+}
     const resultado = json(
   { sport: "nba", team, data },
   response.status
@@ -108,15 +116,7 @@ if (cached) return cached;
         }
       );
 
-      const data = await response.json();
-if (data.errors?.rateLimit) {
-  return json({
-    sport: "nba",
-    team,
-    error: "API-Sports alcanzó su límite de solicitudes. Intenta nuevamente más tarde.",
-    rateLimited: true
-  }, 429);
-}
+     
       const resultado = json({ sport, date, data }, response.status);
 
 if (response.ok && !Object.keys(data.errors || {}).length) {
